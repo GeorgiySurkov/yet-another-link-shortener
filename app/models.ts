@@ -15,7 +15,7 @@ export const ShortenedUrlSchema: Schema = new Schema({
     }
 })
 
-ShortenedUrlSchema.virtual('shortenedUrl').get(function(): string {
+ShortenedUrlSchema.virtual('shortenedUrl').get(function (this: IShortenedUrl): string {
     return `http://localhost:${port}/${this.token}`;
 })
 
