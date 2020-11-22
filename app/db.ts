@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const {
     MONGO_USERNAME,
     MONGO_PASSWORD,
     MONGO_HOSTNAME,
-    MONGO_PORT,
     MONGO_DB
 } = process.env;
 
@@ -15,7 +17,7 @@ const options = {
     connectTimeoutMS: 10000,
 };
 
-const url: string = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+const url: string = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB}?retryWrites=true&w=majority`;
 mongoose.connect(url, options).then(() => {
     console.log('MongoDB is connected');
 })
