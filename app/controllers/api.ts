@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { parseShortenRequestJSON } from '../parsers';
-import ShortenedUrlModel, { IShortenedUrl, IShortenedUrlDocument } from '../models/shortened_url';
+import ShortenedUrlModel, { IShortenedUrl } from '../models/shortened_url';
 import { IShortenRequestJSON } from '../types';
 import { ParseError } from '../errors';
 
@@ -15,9 +15,11 @@ router.post('/shorten', async (req: Request, res: Response): Promise<void> => {
         reqBody = parseShortenRequestJSON(req.body)
     } catch (err) {
         if (err instanceof ParseError) {
-            res.status(400).json({ status: "Error", message: "Bad request" });
+            res.status(400).json({ status: "Error", message: err.message });
+            return;
+        } else {
+            throw err;
         }
-        throw err;
     }
     const shortenedUrl: IShortenedUrl = {
         redirectTo: reqBody.urlToShorten

@@ -1,6 +1,7 @@
 export class ParseError extends Error {
-    constructor(message: string) {
+    constructor(message?: string) {
         super(message);
-        this.name = "ValidationError";
+        Object.setPrototypeOf(this, new.target.prototype);
+        this.name = ParseError.name;
       }
 }
